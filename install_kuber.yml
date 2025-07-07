@@ -7,8 +7,25 @@
   - name: update repository
     apt:
       update_cache: yes
+    when: ansible_distribution in ["Debain", "Ubuntu"]
 
   - name: install kubelet
     apt:
-      name: kubelet
+      name:
+      - kubelet
+      - docker
       state: latest
+    when:  ansible_distribution in ["Debian", "Ubuntu"]
+
+  - name: update repository
+    dnf:
+      update_cache: yes
+    when: ansible_distribution in ["CentOS", "Fedora"]
+
+  - name: install kubelet
+    dnf:
+      name:
+      - kubelet
+      - docker
+      state: latest
+    when:  ansible_distribution in ["CentOS", "Fedora"]
