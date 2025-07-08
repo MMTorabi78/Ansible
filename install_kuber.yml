@@ -4,28 +4,20 @@
   become: true
   tasks:
 
-  - name: update repository
-    apt:
-      update_cache: yes
-    when: ansible_distribution in ["Debain", "Ubuntu"]
-
   - name: install kubelet
     apt:
       name:
-      - kubelet
-      - docker
+        - kubelet
+        - docker
       state: latest
+      update_cache: yes
     when:  ansible_distribution in ["Debian", "Ubuntu"]
 
-  - name: update repository
-    dnf:
-      update_cache: yes
-    when: ansible_distribution in ["CentOS", "Fedora"]
-
   - name: install kubelet
     dnf:
       name:
-      - kubelet
-      - docker
+        - kubelet
+        - docker
       state: latest
+      update_cache: yes
     when:  ansible_distribution in ["CentOS", "Fedora"]
