@@ -1,0 +1,19 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+    - name: change a line in conf
+      lineinfile:
+        path: /etc/hosts
+        regexp: '^172'
+        line: 172.20.225.10 172.20.225.11
+      when: ansible_distribution == "CentOS"
+
+    - name: start a service
+      service:
+        name: kubelet
+        state: started
+        enabled: yes
+      when: ansible_distribution == "Ubuntu"

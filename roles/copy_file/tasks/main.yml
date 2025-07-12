@@ -1,0 +1,7 @@
+  - name: copy important file
+    copy:
+      src: test_copy.yaml 
+      dest: /var/lib/chert.yaml
+      owner: root
+      group: root
+      mode: 0644

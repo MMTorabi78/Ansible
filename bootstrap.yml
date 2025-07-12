@@ -1,0 +1,35 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+    - name: install updates (CentOS)
+      dnf:
+        update_only: yes
+        update_cache: yes
+      when: ansible_distribution == "CentOS"
+
+    - name: install updates (Ubuntu)
+      apt:
+        upgrade: dist
+        update_cache: yes
+      when: ansible_os_family == "Debian"
+
+    - name: create s1m0ne user
+      user:
+        name: simone
+        groups: root
+
+    - name: add ssh key for simone
+      authorized_key:
+        user: simone
+        key: "pub_key"
+
+    - name: add sudoers file for simone
+      copy:
+        src: sudoer_simone
+        dest: /etc/sudoers.d/simone
+        owner: root
+        group: root
+        mode: 0440
